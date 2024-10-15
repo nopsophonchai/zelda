@@ -69,7 +69,7 @@ class PlayState(BaseState):
 
             screen.blit(gHeart_image_list[heart_frame], (i * (TILE_SIZE+3), 6))
             health_left -=2
-        screen.blit(pygame.image.load('D:/zelda v11 tween/graphics/pot.png'),(WIDTH//2,HEIGHT//2))
+        
         #temp
         #self.room.render(screen)
 

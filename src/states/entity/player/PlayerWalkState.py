@@ -33,7 +33,7 @@ class PlayerWalkState(EntityWalkState):
             self.entity.ChangeAnimation('up')
         else:
             self.entity.ChangeState('idle')
-        print(self.entity.walk_speed)
+        # print(self.entity.walk_speed)
         #print(self.entity.collidePot)
         for event in events:
             if event.type == pygame.KEYDOWN:

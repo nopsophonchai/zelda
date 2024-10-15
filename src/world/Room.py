@@ -12,6 +12,7 @@ from src.StateMachine import StateMachine
 from src.GameObject import GameObject
 from src.object_defs import *
 import pygame
+import time
 
 
 class Room:
@@ -35,9 +36,14 @@ class Room:
         self.doorways.append(Doorway('left', False, self))
         self.doorways.append(Doorway('right', False, self))
 
+        self.explosion = gExplosion['explosion'].images
+        self.explodeAni = Animation(self.explosion,looping=False)
+        # print(self.explosion)
+
 
         # for collisions
         self.player = player
+        self.die = False
 
         # centering the dungeon rendering
         self.render_offset_x = MAP_RENDER_OFFSET_X
@@ -105,7 +111,12 @@ class Room:
         switch = GameObject(GAME_OBJECT_DEFS['switch'],
                             x=random.randint(MAP_RENDER_OFFSET_X + TILE_SIZE, WIDTH-TILE_SIZE*2 - 48),
                             y=random.randint(MAP_RENDER_OFFSET_Y+TILE_SIZE, HEIGHT-(HEIGHT-MAP_HEIGHT*TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 48))
-        self.pot = GameObject(GAME_OBJECT_DEFS['pot'],x=random.randint(MAP_RENDER_OFFSET_X + TILE_SIZE, WIDTH-TILE_SIZE*2 - 48), y=random.randint(MAP_RENDER_OFFSET_Y+TILE_SIZE, HEIGHT-(HEIGHT-MAP_HEIGHT*TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 48))
+        for i in range(random.randint(3,5)):
+            self.pot = GameObject(GAME_OBJECT_DEFS['pot'],x=random.randint(MAP_RENDER_OFFSET_X + TILE_SIZE, WIDTH-TILE_SIZE*2 - 48), y=random.randint(MAP_RENDER_OFFSET_Y+TILE_SIZE, HEIGHT-(HEIGHT-MAP_HEIGHT*TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 48))
+            def pot_fucntion():
+                self.pot.objectBump = True
+            self.pot.on_collide = pot_fucntion
+            self.objects.append(self.pot)
         def switch_function():
             if switch.state == "unpressed":
                 switch.state = "pressed"
@@ -115,12 +126,11 @@ class Room:
                 gSounds['door'].play()
 
         switch.on_collide = switch_function
-
-        def pot_fucntion():
-            self.pot.objectBump = True
-        self.pot.on_collide = pot_fucntion
+        
+        
         self.objects.append(switch)
-        self.objects.append(self.pot)
+        print(self.objects)
+        
 
 
     def update(self, dt, events):
@@ -131,6 +141,7 @@ class Room:
 
         for entity in self.entities:
             if entity.health <= 0:
+                print('Dead')
                 entity.is_dead = True
                 self.entities.remove(entity)
 
@@ -145,20 +156,50 @@ class Room:
 
         for object in self.objects:
             object.update(dt)
+            # print(object)
+            if not object.exist:
+                if object.width < 128 and object.height < 80:
+                    object.width *= 2
+                    object.height *= 2
+                object.rect.width = object.width
+                object.rect.height = object.height
+                object.rect.x = object.x
+                object.rect.y = object.y
+                print(f'Width:{object.width} Height:{object.height}')
+                
+                self.explodeAni.update(dt)
+                for i in self.entities:
+                    if i.Collides(object):
+                        # print('Collides')
+
+                        i.Damage(100)
+                # time.sleep(1)
+                # self.objects.remove(object)
+
             if self.player.Collides(object):
-                if object == self.pot: 
-                    print('hi')
+                if object.type == 'pot': 
+                    # print('hi')
                     self.player.collidePot = True
                     #print(self.player.collidePot)
                     self.currentPot = object
-                    if self.player.direction == 'left':
-                        self.player.x += PLAYER_WALK_SPEED * dt
-                    elif self.player.direction == 'right':
-                        self.player.x -= PLAYER_WALK_SPEED * dt 
-                    elif self.player.direction == 'up':
-                        self.player.y += PLAYER_WALK_SPEED * dt
-                    elif self.player.direction == 'down':
-                        self.player.y -= PLAYER_WALK_SPEED * dt  
+                    if object.exist:
+                        if self.player.direction == 'left':
+                            self.player.x += PLAYER_WALK_SPEED * dt
+                        elif self.player.direction == 'right':
+                            self.player.x -= PLAYER_WALK_SPEED * dt 
+                        elif self.player.direction == 'up':
+                            self.player.y += PLAYER_WALK_SPEED * dt
+                        elif self.player.direction == 'down':
+                            self.player.y -= PLAYER_WALK_SPEED * dt  
+                if object.type == 'heart':
+                    if self.player.health < 5:
+                        self.player.health += 2
+                    elif self.player.health == 5:
+                        self.player.health += 1
+                    object.exist = False
+                    self.objects.remove(object)
+                    
+                    
                 else:
                     object.on_collide()
 
@@ -177,7 +218,17 @@ class Room:
             doorway.render(screen, self.adjacent_offset_x+x_mod, self.adjacent_offset_y+y_mod)
 
         for object in self.objects:
-            object.render(screen, self.adjacent_offset_x+x_mod, self.adjacent_offset_y+y_mod)
+            if not object.exist and object.type =='pot':
+                # gExplosion['explosion'].render(screen,object.x,object.y)
+                screen.blit(self.explodeAni.image,(object.x,object.y))
+                if self.explodeAni.times_played > 0:
+                    self.explodeAni.Refresh()
+                    if random.choice([True,False]):
+                        self.objects.append(GameObject(GAME_OBJECT_DEFS['heart'],object.x,object.y))
+                    self.objects.remove(object)
+                    
+            else:
+                object.render(screen, self.adjacent_offset_x+x_mod, self.adjacent_offset_y+y_mod)
 
 
         if not shifting:

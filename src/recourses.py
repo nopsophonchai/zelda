@@ -17,6 +17,9 @@ gPlayer_animation_list = {"down": sprite_collection["character_walk_down"].anima
                         "attack_up": sprite_collection["character_attack_up"].animation,
                         "attack_left": sprite_collection["character_attack_left"].animation
 }
+gExplosion = {
+    "explosion": sprite_collection['explosion'].animation
+}
 
 gSkeleton_animation_list = {"down": sprite_collection["skeleton_walk_down"].animation,
                          "right": sprite_collection["skeleton_walk_right"].animation,

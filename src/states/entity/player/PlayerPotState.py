@@ -32,7 +32,7 @@ class PlayerPotState(EntityWalkState):
             if self.object.throwing:
                 self.object.x += self.object.velox * dt
                 self.object.y += self.object.veloy * dt
-                print(f'Object X:{self.object.x}\tObject Y:{self.object.x}')
+                # print(f'Object X:{self.object.x}\tObject Y:{self.object.x}')
                 
 
                 if self.object.horizontal:
@@ -68,27 +68,35 @@ class PlayerPotState(EntityWalkState):
                 self.object.velox = 0
                 self.object.veloy = 0
                 self.object.throwing = False
+                self.object.exist = False
+                
+
+
                 self.entity.ChangeState('walk')
 
             if self.object.x < 0:
                 self.object.x = 0
                 self.object.velox = 0  
                 self.object.throwing = False 
+                self.object.exist = False
                 self.entity.ChangeState('walk')
             elif self.object.x > WIDTH - TILE_SIZE:
                 self.object.x = WIDTH - TILE_SIZE
                 self.object.velox = 0
                 self.object.throwing = False
+                self.object.exist = False
                 self.entity.ChangeState('walk')
             if self.object.y < 0:
                 self.object.y = 0
                 self.object.veloy = 0  
                 self.object.throwing = False
+                self.object.exist = False
                 self.entity.ChangeState('walk')
             elif self.object.y > HEIGHT - TILE_SIZE:
                 self.object.y = HEIGHT - TILE_SIZE
                 self.object.veloy = 0
                 self.object.throwing = False
+                self.object.exist = False
                 self.entity.ChangeState('walk')
 
             for event in events:
@@ -102,7 +110,7 @@ class PlayerPotState(EntityWalkState):
                             self.object.velox = -300
                             self.object.horizontal = True
                         elif self.entity.direction == 'right':
-                            self.object.velox = -300
+                            self.object.velox = 300
                             self.object.horizontal = True
                         elif self.entity.direction == 'up':
                             self.object.velox = 0

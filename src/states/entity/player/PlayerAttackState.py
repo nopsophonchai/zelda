@@ -72,6 +72,7 @@ class PlayerAttackState(BaseState):
 
     def render(self, screen):
         animation = self.player.curr_animation.image
+        print('animation')
         screen.blit(animation, (math.floor(self.player.x - self.player.offset_x), math.floor(self.player.y - self.player.offset_y)))
 
         #hit box debug

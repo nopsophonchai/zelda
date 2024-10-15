@@ -1,0 +1,63 @@
+{
+    "spriteSheetURL": "./graphics/explosion.png",
+    "type":"animation",
+    "size":[128,80],
+    "sprites":[
+        {
+            "name":"explosion",
+            "images":[
+                {
+                    "x":0,
+                    "y":0,
+                    "scale":1
+                },
+                {
+                    "x":128,
+                    "y":0,
+                    "scale":1
+                },
+                {
+                    "x":256,
+                    "y":0,
+                    "scale":1
+                },
+                {
+                    "x":384,
+                    "y":0,
+                    "scale":1
+                },
+                {
+                    "x":0,
+                    "y":80,
+                    "scale":1
+                },
+                {
+                    "x":128,
+                    "y":80,
+                    "scale":1
+                },
+                {
+                    "x":256,
+                    "y":80,
+                    "scale":1
+                },
+                {
+                    "x":384,
+                    "y":80,
+                    "scale":1
+                }
+			
+            ],
+	       "idle_image":
+			{
+				"x":0,
+				"y":0,
+				"scale":3
+		     },
+            "interval_time":0.6,
+            "colorKey": null
+        }
+        
+]
+}
+

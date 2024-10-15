@@ -1,3 +1,4 @@
+import pygame
 
 class GameObject:
     def __init__(self, conf, x, y):
@@ -17,6 +18,7 @@ class GameObject:
         self.y = y
         self.width = conf.width
         self.height = conf.height
+        self.rect = pygame.Rect(self.x,self.y,self.width,self.height)
 
         self.on_collide = None
         self.holding = False
@@ -25,8 +27,10 @@ class GameObject:
         self.veloy = 0
         self.gravity = 300
         self.horizontal = False
+        self.picked = False
 
         self.objectBump = False
+        self.exist = True
         
         #there can be on_attack
 
@@ -35,4 +39,6 @@ class GameObject:
         pass
 
     def render(self, screen, adjacent_offset_x, adjacent_offset_y):
-        screen.blit(self.image[self.state_list[self.state]], (self.x + adjacent_offset_x, self.y + adjacent_offset_y))
+        if self.exist:
+            screen.blit(self.image[self.state_list[self.state]], (self.x + adjacent_offset_x, self.y + adjacent_offset_y))
+
