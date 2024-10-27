@@ -1,0 +1,104 @@
+{
+    "spriteSheetURL": "./graphics/character_pot_lift.png",
+    "type":"animation",
+    "size":[16,32],
+    "sprites":[
+        {
+            "name":"character_lift_down",
+            "images":[
+                {
+                    "x":0,
+                    "y":0,
+                    "scale":3
+                },
+                {
+                    "x":16,
+                    "y":0,
+                    "scale":3
+                },
+                {
+                    "x":32,
+                    "y":0,
+                    "scale":3
+                }
+
+            ],
+	 	 "loop":false,
+            "interval_time":0.2,
+            "colorKey": null
+        },
+        {
+            "name":"character_lift_right",
+            "images":[
+                {
+                    "x":0,
+                    "y":32,
+                    "scale":3
+                },
+                {
+                    "x":16,
+                    "y":32,
+                    "scale":3
+                },
+                {
+                    "x":32,
+                    "y":32,
+                    "scale":3
+                }
+
+            ],
+	 	 "loop":false,
+            "interval_time":0.2,
+            "colorKey": null
+        },
+        {
+            "name":"character_lift_up",
+            "images":[
+                {
+                    "x":0,
+                    "y":64,
+                    "scale":3
+                },
+                {
+                    "x":16,
+                    "y":64,
+                    "scale":3
+                },
+                {
+                    "x":32,
+                    "y":64,
+                    "scale":3
+                }
+
+            ],
+	 	 "loop":false,
+            "interval_time":0.2,
+            "colorKey": null
+        },
+	   {
+            "name":"character_lift_left",
+            "images":[
+                {
+                    "x":0,
+                    "y":96,
+                    "scale":3
+                },
+                {
+                    "x":16,
+                    "y":96,
+                    "scale":3
+                },
+                {
+                    "x":32,
+                    "y":96,
+                    "scale":3
+                }
+
+            ],
+	 	 "loop":false,
+            "interval_time":0.2,
+            "colorKey": null
+        }
+]
+}
+

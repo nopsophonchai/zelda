@@ -70,6 +70,8 @@ class Room:
         self.showTime = None
         self.timeLeft = 10
         self.enable = True
+
+
         
 
     def GenerateWallsAndFloors(self):
@@ -138,6 +140,7 @@ class Room:
         def switch_function():
             if switch.state == "unpressed" and self.enable:
                 self.puzzle = True
+                self.solved = False
                 pygame.time.set_timer(self.solveTimer, self.solveLimit)
                 self.showTime = pygame.time.get_ticks()
                 # switch.state = "pressed"
@@ -151,14 +154,14 @@ class Room:
         
         self.objects.append(switch)
         self.switch = switch
-        print(self.objects)
+        # print(self.objects)
         
 
 
     def update(self, dt, events):
         if self.adjacent_offset_x != 0 or self.adjacent_offset_y != 0:
             return
-        print(pygame.time.get_ticks()//1000)
+        # print(pygame.time.get_ticks()//1000)
         if self.puzzle and not self.solved:
             currentTime = pygame.time.get_ticks()
             self.timeLeft = self.solveLimit // 1000 - max(0, (currentTime - self.showTime) // 1000)
@@ -206,7 +209,8 @@ class Room:
                                 doorway.open = True
                             gSounds['door'].play()
                             self.puzzle = False
-                            pygame.time.set_timer(self.solveTimer,0)
+                            self.solved = True
+                            pygame.time.set_timer(self. solveTimer,0)
                         else:
                             self.puzzle = False
                             if self.enable:
@@ -221,7 +225,7 @@ class Room:
                 pygame.time.set_timer(self.solveTimer,0)
                 self.switch.state = 'pressed'
                 if self.enable:
-                    print('Time set')
+                    # print('Time set')
                     pygame.time.set_timer(self.switchCooldown,self.cooldown)
                     
                 self.enable = False
@@ -239,16 +243,18 @@ class Room:
                     self.switch.state = 'unpressed'
 
             for entity in self.entities:
+                if self.solved:
+                    entity.switchAct = True
                 if entity.health <= 0:
-                    print('Dead')
+                    # print('Dead')
                     entity.is_dead = True
                     self.entities.remove(entity)
 
                 elif not entity.is_dead:
                     entity.ProcessAI({"room":self}, dt)
                     entity.update(dt, events)
-
-                if not entity.is_dead and self.player.Collides(entity) and not self.player.invulnerable:
+                
+                if not entity.is_dead and self.player.Collides(entity) and not self.player.invulnerable and not entity.ally:
                     gSounds['hit_player'].play()
                     self.player.Damage(1)
                     self.player.SetInvulnerable(1.5)
@@ -264,13 +270,12 @@ class Room:
                     object.rect.height = object.height
                     object.rect.x = object.x
                     object.rect.y = object.y
-                    print(f'Width:{object.width} Height:{object.height}')
+                    # print(f'Width:{object.width} Height:{object.height}')
                     
                     self.explodeAni.update(dt)
                     for i in self.entities:
                         if i.Collides(object):
                             # print('Collides')
-
                             i.Damage(100)
                     # time.sleep(1)
                     # self.objects.remove(object)
@@ -369,4 +374,5 @@ class Room:
             t_press_enter = gFonts['zelda_xsmall'].render(str(self.timeLeft), False, (255, 255, 255))
             rect = t_press_enter.get_rect(center=(WIDTH / 2, HEIGHT / 1.15))
             screen.blit(t_press_enter, rect)
+        # print(self.tiles)
             

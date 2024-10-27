@@ -38,11 +38,13 @@ class PlayerWalkState(EntityWalkState):
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    print('hi')
+                    # print('hi')
                     if self.entity.collidePot == True:
-                        print('yes')
+                        # print('yes')
+                        
                         self.entity.ChangeState('hold',{'pot' :self.dungeon.current_room.currentPot})
-                    #self.entity.ChangeState('swing_sword')
+                    else:
+                        self.entity.ChangeState('swing_sword')
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     self.entity.ChangeState('swing_sword')

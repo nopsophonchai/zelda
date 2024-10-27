@@ -16,7 +16,10 @@ class EntityWalkState(BaseState):
         #hit wall?
         self.bumped = False
 
+        
+
     def update(self, dt, events):
+        
         self.bumped=False
         
                     # if self.player.direction == 'left':
@@ -68,10 +71,30 @@ class EntityWalkState(BaseState):
     def ProcessAI(self, params, dt):
         directions = ['left', 'right', 'up', 'down']
 
-        if self.move_duration == 0 or self.bumped:
+        if (self.move_duration == 0 or self.bumped) and not self.entity.switchAct:
             self.move_duration = random.randint(0, 5)
             self.entity.direction = random.choice(directions)
             self.entity.ChangeAnimation(self.entity.direction)
+        
+        if self.entity.switchAct:
+            print('Switch Activated')
+            self.move_duration = 1000
+            self.entity.walk_speed = 360
+            if self.bumped:
+                if self.entity.direction == 'left':
+                    self.entity.direction = 'up'
+                    self.entity.ChangeAnimation(self.entity.direction)
+                elif self.entity.direction == 'right':
+                    self.entity.direction = 'down'
+                    self.entity.ChangeAnimation(self.entity.direction)
+                elif self.entity.direction == 'up':
+                    self.entity.direction = 'right'
+                    self.entity.ChangeAnimation(self.entity.direction)
+                elif self.entity.direction == 'down':
+                    self.entity.direction = 'left'
+                    self.entity.ChangeAnimation(self.entity.direction)
+
+
 
         elif self.movement_timer > self.move_duration:
             self.movement_timer = 0

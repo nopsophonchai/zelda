@@ -39,7 +39,7 @@ class Animation:
     def __init__(self, images, idleSprite=None, looping=True, interval_time=0.15):
         self.images = images
         self.timer = 0
-        self.index = 0
+        self.index = -1
         if idleSprite is None:
             self.image = self.images[self.index]
         else:
@@ -95,7 +95,9 @@ class SpriteManager:
                 "./sprite/Heart.json",
                 #"./sprite/CharacterIdle.json",
                 "./sprite/CharacterAttack.json",
-                "./sprite/Explosion.json"
+                "./sprite/Explosion.json",
+                "./sprite/CharacterLift.json",
+                "./sprite/CharacterHold.json"
             ]
         )
 

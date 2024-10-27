@@ -10,15 +10,19 @@ class EntityBase():
         # dims
         self.x = conf.x
         self.y = conf.y
+        
         self.width = conf.width
         self.height = conf.height
-
+        self.ally = False
         # sprite offset          check
         self.offset_x = conf.offset_x or 0
         self.offset_y = conf.offset_y or 0
 
-        self.walk_speed = conf.walk_speed
+        self.type = ""
 
+        self.walk_speed = conf.walk_speed
+        if conf.walk_speed == 180:
+            self.type = 'player'
         self.health = conf.health
 
         #invincible
@@ -35,6 +39,7 @@ class EntityBase():
         self.state_machine = None
         self.curr_animation = None
         self.collidePot = False
+        self.switchAct = False
 
 
     def CreateAnimations(self):
@@ -94,6 +99,8 @@ class EntityBase():
         self.state_machine.ProcessAI(params, dt)
 
     def render(self, adjacent_offset_x=0, adjacent_offset_y=0):
+        # if self.type == 'player':
+        #     print(self.curr_animation.image)
         if self.invulnerable and self.flash_timer > 0.06:
             self.flash_timer = 0
             if self.curr_animation.idleSprite is not None:

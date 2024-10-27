@@ -15,7 +15,15 @@ gPlayer_animation_list = {"down": sprite_collection["character_walk_down"].anima
                         "attack_down": sprite_collection["character_attack_down"].animation,
                         "attack_right": sprite_collection["character_attack_right"].animation,
                         "attack_up": sprite_collection["character_attack_up"].animation,
-                        "attack_left": sprite_collection["character_attack_left"].animation
+                        "attack_left": sprite_collection["character_attack_left"].animation,
+                        "lift_down": sprite_collection["character_lift_down"].animation,
+                        "lift_up": sprite_collection["character_lift_up"].animation,
+                        "lift_right": sprite_collection["character_lift_right"].animation,
+                        "lift_left": sprite_collection["character_lift_left"].animation,
+                        "hold_down": sprite_collection["character_hold_down"].animation,
+                        "hold_right": sprite_collection["character_hold_right"].animation,
+                        "hold_up": sprite_collection["character_hold_up"].animation,
+                        "hold_left": sprite_collection["character_hold_left"].animation,
 }
 gExplosion = {
     "explosion": sprite_collection['explosion'].animation
@@ -24,8 +32,13 @@ gExplosion = {
 gSkeleton_animation_list = {"down": sprite_collection["skeleton_walk_down"].animation,
                          "right": sprite_collection["skeleton_walk_right"].animation,
                          "up": sprite_collection["skeleton_walk_up"].animation,
-                         "left": sprite_collection["skeleton_walk_left"].animation,
+                         "left": sprite_collection["skeleton_walk_left"].animation
+                         
 }
+gAlly = {"down": sprite_collection["character_walk_down"].animation,
+                         "right": sprite_collection["character_walk_right"].animation,
+                         "up": sprite_collection["character_walk_up"].animation,
+                         "left": sprite_collection["character_walk_left"].animation}
 
 
 gHeart_image_list = [sprite_collection["heart_0"].image,sprite_collection["heart_2"].image,
